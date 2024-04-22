@@ -12,7 +12,7 @@ npm run start:dev
 ```
 -> le projet se lance sur le port 3001
 
---
+
 
 se placer dans 'token' puis: 
 ```bash
