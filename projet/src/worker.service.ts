@@ -12,8 +12,22 @@ export class WorkerService {
     }
   }
 
+  // findAll(): any[] {
+  //   try {
+  //     const fileContent = fs.readFileSync('./src/worker.json', 'utf8');
+  //     const workers = JSON.parse(fileContent);
+  //     return workers;
+  //   } catch (error) {
+  //     throw new Error(`Une erreur s'est produite lors de la lecture du fichier : ${error.message}`);
+  //   }
+  // }
   findAll(): any[] {
     try {
+      // Vérifier si le fichier existe avant de le lire
+      if (!fs.existsSync('./src/worker.json')) {
+        return []; // Retourner un tableau vide si le fichier n'existe pas
+      }
+
       const fileContent = fs.readFileSync('./src/worker.json', 'utf8');
       const workers = JSON.parse(fileContent);
       return workers;

@@ -7,23 +7,23 @@ import { AuthGuard } from './guard/worker.guard';
   @Controller()
   export class WorkerController {
     constructor(private readonly workerService: WorkerService) {}
-    @Get('/workers/:id')
-    @UseGuards(AuthGuard)
-    findOne(@Param('id') id: string): any {
-      try {
-        return this.workerService.findById(id);
-      } catch (error) {
-        throw new BadRequestException(error.message);
-      }
-    }
+    
+    // @Get('/workers/:id')
+    // findOne(@Param('id') id: string): any {
+    //   try {
+    //     return this.workerService.findById(id);
+    //   } catch (error) {
+    //     throw new BadRequestException(error.message);
+    //   }
+    // }
 
     @Get('/workers')
+    @UseGuards(AuthGuard)
     async getWorkers(@Request() req): Promise<any[]> {
       const token = req.headers.authorization?.split(' ')[1];
       if (!token) {
         throw new Error('Token non fourni.');
       }
-
       try {
         // Appel vers le serveur d'introspection pour valider le token
         const introspectionResponse = await axios.get(`http://localhost:4500/introspect?token=${token}`);
@@ -40,10 +40,10 @@ import { AuthGuard } from './guard/worker.guard';
       }
   }
 
-    // @Get('/workers/:id')
-    // getWorkerById(@Param('id') id: string): any {
-    //   return this.workerService.findById(id);
-    // }
+    @Get('/workers/:id')
+    getWorkerById(@Param('id') id: string): any {
+      return this.workerService.findById(id);
+    }
 
     @Put('/workers/:id')
     updateWorker(@Param('id') id: string, @Body() data: any): void {
